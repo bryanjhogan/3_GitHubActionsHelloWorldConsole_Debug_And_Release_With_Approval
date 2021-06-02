@@ -31,7 +31,6 @@ jobs:
         name: HelloWorldDebug #.zip will be added automatically
         path: ./bin/debug/net5.0/*.*
 
-
   release-build:
     needs: debug-build
     name: Build a release versions of the app
