@@ -1,4 +1,4 @@
-name: A workflow to build an application in debug and release
+name: A workflow to build an application in debug and release, with manual approval for the release build
 
 on:
   push:

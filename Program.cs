@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GitHubActionsHelloWorldConsole
+namespace GitHubActionsHelloWorldConsole_Debug_And_Release_With_Approval
 {
     class Program
     {
