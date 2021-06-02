@@ -1,0 +1,65 @@
+name: A workflow to build an application in debug and release
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  debug-build:
+    name: Build a debug versions of the app
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build -c debug --no-restore
+      
+    - name: Run it for fun
+      run: dotnet ./bin/debug/net5.0/GitHubActionsHelloWorldConsole.dll 
+
+    - name: Upload the debug build artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        # Artifact name
+        name: HelloWorldDebug #.zip will be added automatically
+        path: ./bin/debug/net5.0/*.*
+
+
+  release-build:
+    needs: debug-build
+    name: Build a release versions of the app
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build -c release --no-restore
+
+    - name: Run it for fun
+      run: dotnet ./bin/release/net5.0/GitHubActionsHelloWorldConsole.dll 
+    - name: Upload the release build artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        # Artifact name
+        name: HelloWorldRelease #.zip will be added automatically
+        path: ./bin/release/net5.0/*.*
